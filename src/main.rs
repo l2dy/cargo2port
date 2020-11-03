@@ -19,7 +19,12 @@ fn main() {
         _ => print_usage(1),
     };
 
-    let lockfile = Lockfile::load(lockfile).unwrap();
+    let lockfile = Lockfile::load(lockfile);
+    if let Err(e) = &lockfile {
+        eprintln!("Error: {}", e);
+        print_usage(1);
+    }
+    let lockfile = lockfile.unwrap();
 
     let mut name_min_width = 0;
     let mut version_min_width = 0;
