@@ -1,10 +1,10 @@
 [package]
 name = "cargo2port"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Zero King <l2dy@macports.org>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cargo-lock = "6"
+cargo-lock = "9"
