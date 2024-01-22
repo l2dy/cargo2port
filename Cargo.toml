@@ -4,7 +4,18 @@ version = "0.2.0"
 authors = ["Zero King <l2dy@macports.org>"]
 edition = "2018"
 
+[lib]
+name = "cargo2port"
+path = "src/lib.rs"
+
+[[bin]]
+name = "cargo2port"
+path = "src/main.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 cargo-lock = "9"
+
+[dev-dependencies]
+goldenfile = "1.6"
