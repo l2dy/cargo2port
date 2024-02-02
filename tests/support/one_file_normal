@@ -1,4 +1,4 @@
-cargo crates \
+cargo.crates \
     bitflags                         1.3.2  bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a \
     bitflags                         2.4.2  ed570934406eb16438a4e976b1b4500774099c13b8cb96eec99f620f05090ddf \
     bstr                            0.2.17  ba3569f383e8f1598449f1a423e72e99569137b47740b1da11ef19af3d5c3223 \
@@ -13,9 +13,9 @@ cargo crates \
     goldenfile                       1.6.0  e4a67453a3b358bd8213aedafd4feed75eecab9fb04bed26ba6fdf94694be560 \
     hashbrown                       0.14.3  290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604 \
     idna                             0.5.0  634d9b1461af396cad843f47fdba5597a4f9e6ddd4bfb6ff5d85028c25cb12f6 \
-    indexmap                         2.1.0  d530e1a18b1cb4c484e6e34556a0d948706958449fca0cab753d649f2bce3d1f \
+    indexmap                         2.2.2  824b2ae422412366ba479e8111fd301f7b5faece8149317bb81925979a53f520 \
     lazy_static                      1.4.0  e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646 \
-    libc                           0.2.152  13e3bf6590cbc649f4d1a3eefc9d5d6eb746f5200ffb04e5e142700b8faa56e7 \
+    libc                           0.2.153  9c198f91728a82281a64e1f4f9eeb25d82cb32a5de251c6bd1b5154d63a8e7bd \
     linux-raw-sys                   0.4.13  01cda141df6706de531b6c46c3a33ecca755538219bd484262fa09410c13539c \
     memchr                           2.7.1  523dc4f511e55ab87b694dc30d0f820d60906ef06413f93d4d7a1385599cc149 \
     percent-encoding                 2.3.1  e3148f5046208a5d56bcfc03053e3ca6334e51da8dfb19b6cdc8b306fae3283e \
@@ -23,11 +23,11 @@ cargo crates \
     quote                           1.0.35  291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef \
     redox_syscall                    0.4.1  4722d768eff46b75989dd134e5c353f0d6296e5aaa3132e776cbdb56be7731aa \
     regex-automata                  0.1.10  6c230d73fb8d8c1b9c0b3135c5142a8acee3a0558fb8db5cf1cb65f8d7862132 \
-    rustix                         0.38.30  322394588aaf33c24007e8bb3238ee3e4c5c09c084ab32bc73890b99ff326bca \
+    rustix                         0.38.31  6ea3e1a662af26cd7a3ba09c0297a31af215563ecf42817c98df621387f4e949 \
     scopeguard                       1.2.0  94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49 \
     semver                          1.0.21  b97ed7a9823b74f99c7742f5336af7be5ecd3eeafcb1507d1fa93347b1d589b0 \
-    serde                          1.0.195  63261df402c67811e9ac6def069e4786148c4563f4b50fd4bf30aa370d626b02 \
-    serde_derive                   1.0.195  46fe8f8603d81ba86327b23a2e9cdf49e1255fb94a4c5f297f6ee0547178ea2c \
+    serde                          1.0.196  870026e60fa08c69f064aa766c10f10b1d62db9ccd4d0abb206472bee0ce3b32 \
+    serde_derive                   1.0.196  33c85360c95e7d137454dc81d9a4ed2b8efd8fbe19cee57357b32b9771fccb67 \
     serde_spanned                    0.6.5  eb3622f419d1296904700073ea6cc23ad690adbd66f13ea683df73298736f0c1 \
     similar                          2.4.0  32fea41aca09ee824cc9724996433064c89f7777e60762749a4170a14abbfa21 \
     similar-asserts                  1.5.0  e041bb827d1bfca18f213411d51b665309f1afb37a04a5d1464530e13779fc0f \
@@ -52,5 +52,5 @@ cargo crates \
     windows_x86_64_gnu              0.52.0  3d6fa32db2bc4a2f5abeacf2b69f7992cd09dca97498da74a151a3132c26befd \
     windows_x86_64_gnullvm          0.52.0  1a657e1e9d3f514745a572a6846d3c7aa7dbe1658c056ed9c3344c4109a6949e \
     windows_x86_64_msvc             0.52.0  dff9641d1cd4be8d1a070daf9e3773c5f67e78b4d9d42263020c057706765c04 \
-    winnow                          0.5.34  b7cf47b659b318dccbd69cc4797a39ae128f533dce7902a1096044d1967b9c16 \
+    winnow                          0.5.36  818ce546a11a9986bc24f93d0cdf38a8a1a400f1473ea8c82e59f6e0ffab9249 \
     yansi                         1.0.0-rc.1  1367295b8f788d371ce2dbc842c7b709c73ee1364d30351dd300ec2203b12377
