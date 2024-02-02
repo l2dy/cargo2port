@@ -1,4 +1,4 @@
-cargo crates \
+cargo.crates \
     addr2line \
     0.21.0 \
     8a30b2e23b9e17a9f90641c7ab1549cd9b44f296d3ccbf309d2863cfe398a0cb \

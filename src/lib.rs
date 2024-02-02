@@ -45,7 +45,7 @@ pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> Strin
         }
     }
 
-    output.push_str("cargo crates");
+    output.push_str("cargo.crates");
 
     for package in packages {
         if let Some(checksum) = &package.checksum {
