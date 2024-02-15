@@ -4,7 +4,7 @@ use cargo2port::{format_cargo_crates, read_packages_from_lockfiles, AlignmentMod
 use goldenfile::Mint;
 
 fn lockfiles() -> Vec<String> {
-    return vec!["Cargo.lock".to_string()];
+    vec!["Cargo.lock".to_string()]
 }
 
 #[test]

@@ -12,7 +12,7 @@ pub enum AlignmentMode {
 pub fn read_packages_from_lockfiles(
     files: &Vec<String>,
 ) -> Result<Vec<Package>, cargo_lock::Error> {
-    let lockfiles = read_lockfiles(&files)?;
+    let lockfiles = read_lockfiles(files)?;
     let packageset = create_packageset(&lockfiles);
     let mut packages = Vec::new();
 
@@ -22,7 +22,7 @@ pub fn read_packages_from_lockfiles(
 
     packages.sort();
 
-    return Ok(packages);
+    Ok(packages)
 }
 
 pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> String {
@@ -78,7 +78,7 @@ pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> Strin
         }
     }
 
-    return output;
+    output
 }
 
 fn read_lockfiles(names: &Vec<String>) -> Result<Vec<Lockfile>, cargo_lock::Error> {
@@ -89,7 +89,7 @@ fn read_lockfiles(names: &Vec<String>) -> Result<Vec<Lockfile>, cargo_lock::Erro
         lockfiles.push(lockfile);
     }
 
-    return Ok(lockfiles);
+    Ok(lockfiles)
 }
 
 fn create_packageset(lockfiles: &Vec<Lockfile>) -> BTreeSet<&Package> {
@@ -105,5 +105,5 @@ fn create_packageset(lockfiles: &Vec<Lockfile>) -> BTreeSet<&Package> {
         }
     }
 
-    return packageset;
+    packageset
 }

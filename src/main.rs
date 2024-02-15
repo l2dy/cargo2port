@@ -23,13 +23,13 @@ fn main() {
         }
     }
 
-    if files.len() == 0 {
+    if files.is_empty() {
         files.push("Cargo.lock".to_string())
     }
 
     match read_packages_from_lockfiles(&files) {
         Ok(packages) => {
-            if packages.len() == 0 {
+            if packages.is_empty() {
                 eprintln!("No packages with checksums found.");
                 process::exit(0);
             }
@@ -55,7 +55,7 @@ fn check_path(arg: &str) -> Option<String> {
                 }
             } else {
                 match path.join("Cargo.lock").to_str() {
-                    Some(file_path) => return check_path(file_path),
+                    Some(file_path) => check_path(file_path),
                     None => {
                         eprintln!("Error: failure appending Cargo.lock to {arg}");
                         process::exit(1);
@@ -74,7 +74,7 @@ fn check_path(arg: &str) -> Option<String> {
     }
 }
 
-fn print_usage(code: i32) -> () {
+fn print_usage(code: i32) {
     let arg0 = env::args().next().unwrap_or("cargo2port".to_owned());
     eprintln!(
         "Usage: {} [--align=maxlen|multiline] <path/to/Cargo.lock>...",
