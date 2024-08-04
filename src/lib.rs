@@ -7,6 +7,7 @@ pub enum AlignmentMode {
     Normal,
     Maxlen,
     Multiline,
+    Justify,
 }
 
 pub fn read_packages_from_lockfiles(
@@ -25,11 +26,16 @@ pub fn read_packages_from_lockfiles(
     Ok(packages)
 }
 
+// The amount of space that will always be put between the name and version
+// when in AlignmentMode::Justify.
+const JUSTIFIED_BASE_WIDTH: usize = 5;
+
 pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> String {
     let mut output = String::new();
 
     let mut name_min_width = 0;
     let mut version_min_width = 0;
+    let mut package_max_width = 0;
 
     if mode == AlignmentMode::Maxlen {
         for package in &packages {
@@ -41,6 +47,13 @@ pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> Strin
             let version_len = package.version.to_string().len();
             if version_len > version_min_width {
                 version_min_width = version_len;
+            }
+        }
+    } else if mode == AlignmentMode::Justify {
+        for package in &packages {
+            let len = package.name.as_str().len() + package.version.to_string().len();
+            if len > package_max_width {
+                package_max_width = len;
             }
         }
     }
@@ -72,6 +85,21 @@ pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> Strin
                     name_width = 28,
                     version_width = 8
                 ),
+                AlignmentMode::Justify => {
+                    let version_len = package.version.to_string().len();
+                    let space_width = package_max_width - package.name.as_str().len() - version_len
+                        + JUSTIFIED_BASE_WIDTH;
+
+                    format!(
+                        "    {}{:space_width$}{:>version_width$}  {}",
+                        package.name,
+                        " ",
+                        package.version,
+                        checksum,
+                        space_width = space_width,
+                        version_width = version_len,
+                    )
+                }
             };
 
             output.push_str(&line);

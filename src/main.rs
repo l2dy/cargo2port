@@ -16,6 +16,7 @@ fn main() {
             "-h" => print_usage(0),
             "--align=maxlen" => mode = AlignmentMode::Maxlen,
             "--align=multiline" => mode = AlignmentMode::Multiline,
+            "--align=justify" => mode = AlignmentMode::Justify,
             _ => match check_path(&arg[..]) {
                 Some(path) => files.push(path),
                 None => process::exit(1),
@@ -77,7 +78,7 @@ fn check_path(arg: &str) -> Option<String> {
 fn print_usage(code: i32) {
     let arg0 = env::args().next().unwrap_or("cargo2port".to_owned());
     eprintln!(
-        "Usage: {} [--align=maxlen|multiline] <path/to/Cargo.lock>...",
+        "Usage: {} [--align=maxlen|multiline|justify] <path/to/Cargo.lock>...",
         arg0
     );
     process::exit(code);
