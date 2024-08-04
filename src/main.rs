@@ -68,8 +68,12 @@ fn check_path(arg: &str) -> Option<String> {
             }
         }
         Ok(false) => {
-            eprintln!("Error: cannot find file {arg}");
-            process::exit(1);
+            if arg.strip_prefix("crate:").is_some() {
+                path.to_str().map(|path_str| path_str.to_string())
+            } else {
+                eprintln!("Error: cannot find file {arg}");
+                process::exit(1);
+            }
         }
         Err(e) => {
             eprintln!("Error: {}", e);
