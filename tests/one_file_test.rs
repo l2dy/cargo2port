@@ -39,3 +39,14 @@ fn test_one_file_multiline_mode() {
 
     writeln!(file, "{}", output).unwrap();
 }
+
+#[test]
+fn test_one_file_justify_mode() {
+    let mut mint = Mint::new("tests/support");
+    let mut file = mint.new_goldenfile("one_file_justify").unwrap();
+
+    let packages = read_packages_from_lockfiles(&lockfiles()).unwrap();
+    let output = format_cargo_crates(packages, AlignmentMode::Justify);
+
+    writeln!(file, "{}", output).unwrap();
+}
