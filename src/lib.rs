@@ -1,6 +1,11 @@
 use std::collections::BTreeSet;
+use std::io::{self, Read};
+use std::str::FromStr;
 
-use cargo_lock::{Lockfile, Package};
+use cargo_lock::{self, Lockfile, Package};
+
+/// Result type with the `cargo2port` crate's [`Error`] type.
+type Result<T> = core::result::Result<T, cargo_lock::Error>;
 
 #[derive(PartialEq)]
 pub enum AlignmentMode {
@@ -10,9 +15,7 @@ pub enum AlignmentMode {
     Justify,
 }
 
-pub fn read_packages_from_lockfiles(
-    files: &Vec<String>,
-) -> Result<Vec<Package>, cargo_lock::Error> {
+pub fn read_packages_from_lockfiles(files: &Vec<String>) -> Result<Vec<Package>> {
     let lockfiles = read_lockfiles(files)?;
     let packageset = create_packageset(&lockfiles);
     let mut packages = Vec::new();
@@ -109,11 +112,19 @@ pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> Strin
     output
 }
 
-fn read_lockfiles(names: &Vec<String>) -> Result<Vec<Lockfile>, cargo_lock::Error> {
+fn read_lockfiles(names: &Vec<String>) -> Result<Vec<Lockfile>> {
     let mut lockfiles: Vec<Lockfile> = vec![];
 
     for name in names {
-        let lockfile = Lockfile::load(name)?;
+        let lockfile = if name == "-" {
+            let mut stdin = io::stdin().lock();
+            let mut contents = String::new();
+            stdin.read_to_string(&mut contents)?;
+            Lockfile::from_str(&contents)?
+        } else {
+            Lockfile::load(name)?
+        };
+
         lockfiles.push(lockfile);
     }
 

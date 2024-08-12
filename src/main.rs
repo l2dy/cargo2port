@@ -45,8 +45,11 @@ fn main() {
 }
 
 fn check_path(arg: &str) -> Option<String> {
-    let path = Path::new(&arg);
+    if arg == "-" {
+        return Some(arg.to_string());
+    }
 
+    let path = Path::new(&arg);
     match path.try_exists() {
         Ok(true) => {
             if path.is_file() {
