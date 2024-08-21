@@ -5,7 +5,11 @@ use std::str::FromStr;
 use cargo_lock::{self, Lockfile, Package};
 
 /// Result type with the `cargo2port` crate's [`Error`] type.
-type Result<T> = core::result::Result<T, cargo_lock::Error>;
+pub type Result<T> = std::result::Result<T, cargo_lock::Error>;
+
+// The amount of space that will always be put between the name and version when in
+// AlignmentMode::Justify, in addition to any other amount calculated.
+const JUSTIFIED_BASE_WIDTH: usize = 5;
 
 #[derive(PartialEq)]
 pub enum AlignmentMode {
@@ -15,9 +19,44 @@ pub enum AlignmentMode {
     Justify,
 }
 
-pub fn read_packages_from_lockfiles(files: &Vec<String>) -> Result<Vec<Package>> {
-    let lockfiles = read_lockfiles(files)?;
-    let packageset = create_packageset(&lockfiles);
+/// Load a Cargo.lock file from the filename provided.
+/// This is a thin wrapper around cargo_lockfile::Lockfile::load.
+pub fn lockfile_from_path(filename: &str) -> Result<Lockfile> {
+    Lockfile::load(filename)
+}
+
+/// Parse a Cargo.lock file from the contents provided.
+/// This is a thin wrapper around cargo_lockfile::Lockfile::from_str.
+pub fn lockfile_from_str(contents: &str) -> Result<Lockfile> {
+    Lockfile::from_str(contents)
+}
+
+/// Load Cargo.lock data from stdin and parse it from the resulting string.
+pub fn lockfile_from_stdin() -> Result<Lockfile> {
+    let mut stdin = io::stdin().lock();
+    let mut contents = String::new();
+    stdin.read_to_string(&mut contents)?;
+    lockfile_from_str(&contents)
+}
+
+/// Resolve packages from a vector of Lockfile entries to a de-duplicated sorted vector of
+/// Packages.
+///
+/// Packages without a checksum are omitted (this usually happens for the package with the
+/// Cargo.lock file or files being processed).
+pub fn resolve_lockfile_packages(lockfiles: &Vec<Lockfile>) -> Result<Vec<Package>> {
+    let mut packageset: BTreeSet<&Package> = BTreeSet::new();
+
+    for lockfile in lockfiles {
+        for package in &lockfile.packages {
+            if package.checksum.is_none() {
+                continue;
+            }
+
+            packageset.insert(package);
+        }
+    }
+
     let mut packages = Vec::new();
 
     for package in packageset {
@@ -29,10 +68,8 @@ pub fn read_packages_from_lockfiles(files: &Vec<String>) -> Result<Vec<Package>>
     Ok(packages)
 }
 
-// The amount of space that will always be put between the name and version
-// when in AlignmentMode::Justify.
-const JUSTIFIED_BASE_WIDTH: usize = 5;
-
+/// Return the portfile `cargo.crates` block given a vector of packages and AlignmentMode.
+/// It is assumed that the package vector is already sorted and deduplicated.
 pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> String {
     let mut output = String::new();
 
@@ -110,39 +147,4 @@ pub fn format_cargo_crates(packages: Vec<Package>, mode: AlignmentMode) -> Strin
     }
 
     output
-}
-
-fn read_lockfiles(names: &Vec<String>) -> Result<Vec<Lockfile>> {
-    let mut lockfiles: Vec<Lockfile> = vec![];
-
-    for name in names {
-        let lockfile = if name == "-" {
-            let mut stdin = io::stdin().lock();
-            let mut contents = String::new();
-            stdin.read_to_string(&mut contents)?;
-            Lockfile::from_str(&contents)?
-        } else {
-            Lockfile::load(name)?
-        };
-
-        lockfiles.push(lockfile);
-    }
-
-    Ok(lockfiles)
-}
-
-fn create_packageset(lockfiles: &Vec<Lockfile>) -> BTreeSet<&Package> {
-    let mut packageset: BTreeSet<&Package> = BTreeSet::new();
-
-    for lockfile in lockfiles {
-        for package in &lockfile.packages {
-            if package.checksum.is_none() {
-                continue;
-            }
-
-            packageset.insert(package);
-        }
-    }
-
-    packageset
 }

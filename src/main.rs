@@ -2,7 +2,12 @@ use std::env;
 use std::path::Path;
 use std::process;
 
-use cargo2port::{format_cargo_crates, read_packages_from_lockfiles, AlignmentMode};
+use cargo_lock::{Lockfile, Package};
+
+use cargo2port::{
+    format_cargo_crates, lockfile_from_path, lockfile_from_stdin, resolve_lockfile_packages,
+    AlignmentMode, Result,
+};
 
 fn main() {
     let mut mode = AlignmentMode::Normal;
@@ -76,6 +81,22 @@ fn check_path(arg: &str) -> Option<String> {
             process::exit(1);
         }
     }
+}
+
+fn read_packages_from_lockfiles(files: &Vec<String>) -> Result<Vec<Package>> {
+    let mut lockfiles: Vec<Lockfile> = vec![];
+
+    for name in files {
+        let lockfile = if name == "-" {
+            lockfile_from_stdin()?
+        } else {
+            lockfile_from_path(name)?
+        };
+
+        lockfiles.push(lockfile);
+    }
+
+    resolve_lockfile_packages(&lockfiles)
 }
 
 fn print_usage(code: i32) {
