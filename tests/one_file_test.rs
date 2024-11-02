@@ -14,6 +14,16 @@ fn lockfiles() -> Vec<Package> {
     resolve_lockfile_packages(&files).unwrap()
 }
 
+fn lockfiles_v4() -> Vec<Package> {
+    let files = vec![
+        "tests/support/one_file_lockfile_v4".to_string(),
+    ]
+    .into_iter()
+    .map(|f| lockfile_from_path(&f).unwrap())
+    .collect();
+    resolve_lockfile_packages(&files).unwrap()
+}
+
 #[test]
 fn test_one_file_normal_mode() {
     let mut mint = Mint::new("tests/support");
@@ -54,6 +64,17 @@ fn test_one_file_justify_mode() {
 
     let packages = lockfiles();
     let output = format_cargo_crates(packages, AlignmentMode::Justify);
+
+    writeln!(file, "{}", output).unwrap();
+}
+
+#[test]
+fn test_one_file_version_4() {
+    let mut mint = Mint::new("tests/support");
+    let mut file = mint.new_goldenfile("one_file_v4").unwrap();
+
+    let packages = lockfiles_v4();
+    let output = format_cargo_crates(packages, AlignmentMode::Normal);
 
     writeln!(file, "{}", output).unwrap();
 }
