@@ -1,6 +1,6 @@
 [package]
 name = "cargo2port"
-version = "0.2.1"
+version = "0.3.1"
 authors = ["Zero King <l2dy@macports.org>"]
 edition = "2018"
 

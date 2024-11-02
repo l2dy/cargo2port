@@ -33,7 +33,7 @@ dependencies = [
 
 [[package]]
 name = "cargo2port"
-version = "0.2.1"
+version = "0.3.1"
 dependencies = [
  "cargo-lock",
  "goldenfile",
