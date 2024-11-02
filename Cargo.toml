@@ -15,7 +15,7 @@ path = "src/main.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cargo-lock = "9"
+cargo-lock = "10"
 
 [dev-dependencies]
-goldenfile = "1.6"
+goldenfile = "1.7"
